@@ -1,0 +1,2 @@
+ADC.cpp:16:6:static void ADC::Start()	8	static
+ADC.cpp:22:16:short unsigned int ADC::GetValue()	16	static
