@@ -23,8 +23,7 @@ void App::DivideData()
 	tempdata[4]=plow->ad5.GetValue();
 	tempdata[5]=plow->ad6.GetValue();
 
-	for(int i=0; i<5;i++)
-	{
+
 		this->txbuf3[0]	=plow->sw1.GetPush();
 		this->txbuf3[0]	=plow->sw2.GetPush()<<1;
 		this->txbuf3[0]	=plow->sw3.GetPush()<<2;
@@ -32,7 +31,7 @@ void App::DivideData()
 		this->txbuf3[0]	=plow->sw5.GetPush()<<4;
 		this->txbuf3[0]	=plow->sw6.GetPush()<<5;
 		txbuf3[0]=~txbuf3[0];
-	}
+
 	this->txbuf1[0]=((unsigned char *)&tempdata[0])[0];
 	this->txbuf1[1]=((unsigned char *)&tempdata[0])[1];
 	this->txbuf1[2]=((unsigned char *)&tempdata[1])[0];
