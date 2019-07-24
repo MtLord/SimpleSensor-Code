@@ -7,6 +7,8 @@
 
 #include "Application.hpp"
 #include "DefineOrder.h"
+#include "stdio.h"
+#include "math.h"
 
 extern unsigned char RxFIFO_Data[6];
 extern CAN_RxHeaderTypeDef RXmsg;
@@ -24,6 +26,7 @@ void App::DivideData()
 	tempdata[5]=plow->ad6.GetValue();
 
 
+	//distance[0]=19501.14 * pow(tempdata[0] ,-1.256676);
 		this->txbuf3[0]	=plow->sw1.GetPush();
 		this->txbuf3[0]	=plow->sw2.GetPush()<<1;
 		this->txbuf3[0]	=plow->sw3.GetPush()<<2;
@@ -57,7 +60,7 @@ void App::TaskShift()
 	}
 	if(CanRxFlag)
 	{
-		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)//–½—ßID‚ªSET_DUTY‚Éˆê’v‚µ‚½‚ç
+		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)
 		{
 			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1);
 			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2);

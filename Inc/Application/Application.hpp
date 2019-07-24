@@ -16,6 +16,7 @@ class App
 	unsigned char txbuf2[8]={0,};
 	unsigned char txbuf3[1]={0,};
 	void DivideData();
+	float distance[6];
 public:
 	App(LowlayerHandelTypedef *_plow):plow(_plow)
 	{

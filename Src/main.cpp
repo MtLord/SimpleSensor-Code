@@ -32,11 +32,12 @@
 #include "LowlayerHandel.hpp"
 #include "Application/Application.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+extern bool IntFlag;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -104,6 +105,7 @@ int main(void)
   LowlayerHandelTypedef hlow;
   Timer1 LoopInt(&htim6,20);
   LoopInt.Start();
+  hlow.ad1.Start();
   App app(&hlow);
   /* USER CODE END 2 */
 
@@ -114,7 +116,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  app.TaskShift();
+
+	  //app.TaskShift();
+	  printf("%d\n\r",hlow.ad1.GetValue());
   }
   /* USER CODE END 3 */
 }
