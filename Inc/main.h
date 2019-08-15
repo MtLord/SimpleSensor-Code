@@ -58,8 +58,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define MCO_Pin GPIO_PIN_0
-#define MCO_GPIO_Port GPIOF
 #define VCP_TX_Pin GPIO_PIN_2
 #define VCP_TX_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13
@@ -70,6 +68,10 @@ void Error_Handler(void);
 #define VCP_RX_GPIO_Port GPIOA
 #define LD3_Pin GPIO_PIN_3
 #define LD3_GPIO_Port GPIOB
+#define Trig_Pin GPIO_PIN_4
+#define Trig_GPIO_Port GPIOB
+#define echo_Pin GPIO_PIN_5
+#define echo_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

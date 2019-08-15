@@ -23,6 +23,7 @@
 #include "adc.h"
 #include "can.h"
 #include "dma.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -42,12 +43,25 @@ extern bool IntFlag;
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+extern bool CanRxFlag;
+extern void FilterConfig();
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+extern uint16_t adcValue1[6];
+extern uint16_t adcValue2[6];
+#ifdef __cplusplus
+extern "C" {
+#endif
+void DMA_start()
+{
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcValue1, 3);
+	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adcValue2, 3);
+}
+#ifdef __cplusplus
+}
+#endif
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -74,7 +88,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	 setbuf(stdout, NULL);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -98,15 +112,18 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
-  MX_CAN_Init();
+ // MX_CAN_Init();
   MX_USART2_UART_Init();
   MX_TIM6_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+ // FilterConfig();
   LowlayerHandelTypedef hlow;
-  Timer1 LoopInt(&htim6,20);
-  LoopInt.Start();
+ // Timer1 LoopInt(&htim6,20);
+ // LoopInt.Start();
   hlow.ad1.Start();
   App app(&hlow);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,7 +135,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  //app.TaskShift();
-	  printf("%d\n\r",hlow.ad1.GetValue());
+	  printf("%d\n",hlow.ad6.GetValue());
+	  printf("%d\n",hlow.ad5.GetValue());
   }
   /* USER CODE END 3 */
 }
@@ -135,10 +153,11 @@ void SystemClock_Config(void)
 
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -159,8 +178,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC12;
-  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();

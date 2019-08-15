@@ -33,7 +33,7 @@ void App::DivideData()
 		this->txbuf3[0]	=plow->sw4.GetPush()<<3;
 		this->txbuf3[0]	=plow->sw5.GetPush()<<4;
 		this->txbuf3[0]	=plow->sw6.GetPush()<<5;
-		txbuf3[0]=~txbuf3[0];
+		txbuf3[0]=~txbuf3[0]; //押しているときを1に変更
 
 	this->txbuf1[0]=((unsigned char *)&tempdata[0])[0];
 	this->txbuf1[1]=((unsigned char *)&tempdata[0])[1];
@@ -62,7 +62,7 @@ void App::TaskShift()
 	{
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)
 		{
-			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1);
+			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1); //送信要求が来たら12バイト分送信
 			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2);
 		}
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_MICROSWITCH)

@@ -23,7 +23,8 @@ public:
 
 	LowlayerHandelTypedef():
 	sw1(GPIOA,GPIO_PIN_7),sw2(GPIOA,GPIO_PIN_9),sw3(GPIOA,GPIO_PIN_10),sw4(GPIOB,GPIO_PIN_0),sw5(GPIOB,GPIO_PIN_1),
-	sw6(GPIOA,GPIO_PIN_8),ad1(2,3),ad2(2,2),ad3(2,1),ad4(1,4),ad5(1,2),ad6(1,1),
+	sw6(GPIOA,GPIO_PIN_8),
+	ad1(2,3),ad2(2,2),ad3(2,1),ad4(1,4),ad5(1,2),ad6(1,1),
 	extcan(CAN_ID_EXT,CAN_RTR_DATA)
 	{
 

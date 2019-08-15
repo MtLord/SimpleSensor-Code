@@ -7,8 +7,7 @@
 
 #ifndef ADC_ADC_HPP_
 #define ADC_ADC_HPP_
-#include "stm32f3xx_hal.h"
-#include"ADC.h"
+
 
 class ADC
 {
