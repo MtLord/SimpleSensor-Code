@@ -38,12 +38,14 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-extern bool IntFlag;
+#define DEBUG
+#define RUN
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 extern bool CanRxFlag;
+extern bool IntFlag;
 extern void FilterConfig();
 /* USER CODE END PD */
 
@@ -112,15 +114,14 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
- // MX_CAN_Init();
+  MX_CAN_Init();
   MX_USART2_UART_Init();
   MX_TIM6_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
- // FilterConfig();
+
   LowlayerHandelTypedef hlow;
- // Timer1 LoopInt(&htim6,20);
- // LoopInt.Start();
+  FilterConfig();
   hlow.ad1.Start();
   App app(&hlow);
 
@@ -133,7 +134,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+#ifdef RUN
+	  app.TaskShift();
+#endif
 	  //app.TaskShift();
 	  printf("%d\n",hlow.ad6.GetValue());
 	  printf("%d\n",hlow.ad5.GetValue());
