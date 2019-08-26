@@ -38,8 +38,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define DEBUG
-#define RUN
+//#define DEBUG
+//#define RUN
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -51,25 +51,14 @@ extern void FilterConfig();
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-extern uint16_t adcValue1[6];
-extern uint16_t adcValue2[6];
-#ifdef __cplusplus
-extern "C" {
-#endif
-void DMA_start()
-{
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcValue1, 3);
-	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adcValue2, 3);
-}
-#ifdef __cplusplus
-}
-#endif
+
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+extern CAN_RxHeaderTypeDef RXmsg;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -123,6 +112,9 @@ int main(void)
   LowlayerHandelTypedef hlow;
   FilterConfig();
   hlow.ad1.Start();
+  Timer1 LoopInt(&htim6);
+  LoopInt.SetLoopTime(2);
+  LoopInt.Start();
   App app(&hlow);
 
   /* USER CODE END 2 */
@@ -137,9 +129,14 @@ int main(void)
 #ifdef RUN
 	  app.TaskShift();
 #endif
+#ifdef DEBUG
+	  //hlow.DebugADC();
+	  hlow.DebugSW();
+#endif
 	  //app.TaskShift();
-	  printf("%d\n",hlow.ad6.GetValue());
-	  printf("%d\n",hlow.ad5.GetValue());
+hlow.extcan.Send(0x89, 0, 0);
+HAL_Delay(1);	//  printf("id:%d\n\r",RXmsg.ExtId);
+
   }
   /* USER CODE END 3 */
 }

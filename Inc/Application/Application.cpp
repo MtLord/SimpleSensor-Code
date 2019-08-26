@@ -33,7 +33,7 @@ void App::DivideData()
 		this->txbuf3[0]	=plow->sw4.GetPush()<<3;
 		this->txbuf3[0]	=plow->sw5.GetPush()<<4;
 		this->txbuf3[0]	=plow->sw6.GetPush()<<5;
-		txbuf3[0]=~txbuf3[0]; //‰Ÿ‚µ‚Ä‚¢‚é‚Æ‚«‚ð1‚É•ÏX
+		//txbuf3[0]=~txbuf3[0]; //‰Ÿ‚µ‚Ä‚¢‚é‚Æ‚«‚ð1‚É•ÏX
 
 	this->txbuf1[0]=((unsigned char *)&tempdata[0])[0];
 	this->txbuf1[1]=((unsigned char *)&tempdata[0])[1];

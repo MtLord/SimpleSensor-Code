@@ -877,17 +877,17 @@ HAL_StatusTypeDef HAL_CAN_AddTxMessage(CAN_HandleTypeDef *hcan, CAN_TxHeaderType
       *pTxMailbox = (uint32_t)1 << transmitmailbox;
 
       /* Set up the Id */
-      if (pHeader->IDE == CAN_ID_STD)
-      {
-        hcan->Instance->sTxMailBox[transmitmailbox].TIR = ((pHeader->StdId << CAN_TI0R_STID_Pos) |
-                                                           pHeader->RTR);
-      }
-      else
-      {
+//      if (pHeader->IDE == CAN_ID_STD)
+//      {
+//        hcan->Instance->sTxMailBox[transmitmailbox].TIR = ((pHeader->StdId << CAN_TI0R_STID_Pos) |
+//                                                           pHeader->RTR);
+//      }
+//      else
+//      {
         hcan->Instance->sTxMailBox[transmitmailbox].TIR = ((pHeader->ExtId << CAN_TI0R_EXID_Pos) |
                                                            pHeader->IDE |
                                                            pHeader->RTR);
-      }
+      //}
 
       /* Set up the DLC */
       hcan->Instance->sTxMailBox[transmitmailbox].TDTR = (pHeader->DLC);

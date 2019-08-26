@@ -33,7 +33,7 @@ unsigned short ADC::GetValue()
 			return adcValue1[1];
 			break;
 		case 4:
-			return adcValue1[3];
+			return adcValue1[2];
 			break;
 		}
 	}
