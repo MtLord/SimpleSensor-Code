@@ -27,12 +27,12 @@ void App::DivideData()
 
 
 	//distance[0]=19501.14 * pow(tempdata[0] ,-1.256676);
-		this->txbuf3[0]	=plow->sw1.GetPush();
-		this->txbuf3[0]	=plow->sw2.GetPush()<<1;
-		this->txbuf3[0]	=plow->sw3.GetPush()<<2;
-		this->txbuf3[0]	=plow->sw4.GetPush()<<3;
-		this->txbuf3[0]	=plow->sw5.GetPush()<<4;
-		this->txbuf3[0]	=plow->sw6.GetPush()<<5;
+		this->txbuf3[0]	=plow->sw6.GetPush();
+		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw5.GetPush();
+		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw4.GetPush();
+		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw3.GetPush();
+		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw2.GetPush();
+		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw1.GetPush();
 		//txbuf3[0]=~txbuf3[0]; //‰Ÿ‚µ‚Ä‚¢‚é‚Æ‚«‚ð1‚É•ÏX
 
 	this->txbuf1[0]=((unsigned char *)&tempdata[0])[0];
@@ -43,7 +43,6 @@ void App::DivideData()
 	this->txbuf1[5]=((unsigned char *)&tempdata[2])[1];
 	this->txbuf1[6]=((unsigned char *)&tempdata[3])[0];
 	this->txbuf1[7]=((unsigned char *)&tempdata[3])[1];
-
 	this->txbuf2[0]=((unsigned char *)&tempdata[4])[0];
 	this->txbuf2[1]=((unsigned char *)&tempdata[4])[1];
 	this->txbuf2[2]=((unsigned char *)&tempdata[5])[0];
@@ -81,7 +80,7 @@ void App::TaskShift()
 		}
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_MICROSWITCH)
 		{
-			if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos,1,txbuf3)!=0){
+			if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos|1,1,txbuf3)!=0){
 
 			}
 			else

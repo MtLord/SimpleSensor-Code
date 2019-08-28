@@ -38,8 +38,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-//#define DEBUG
-#define RUN
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -52,7 +51,8 @@ extern void FilterConfig();
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
-
+//#define DEBUG
+#define RUN
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -130,13 +130,11 @@ int main(void)
 	  app.TaskShift();
 #endif
 #ifdef DEBUG
-	  hlow.DebugADC();
-	  //hlow.DebugSW();
+	  //hlow.DebugADC();
+	  hlow.DebugSW();
 #endif
-	  //app.TaskShift();
-//hlow.extcan.Send(0x89, 0, 0);
-//HAL_Delay(1);
-//  printf("id:%d\n\r",RXmsg.ExtId);
+
+
 
   }
   /* USER CODE END 3 */
