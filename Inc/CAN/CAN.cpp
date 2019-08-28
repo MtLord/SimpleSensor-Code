@@ -14,10 +14,7 @@ int rx_led=0;
 #define MASKID_L 0x30<<9|0x1<<2
 #define FILTERID_L 0x30<<9|0x1<<2 //extidと命令IDの上位ビットでマスクをかける
 
-#define TOGGLE_TX_LED HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_3);
-#define TOGGLE_RX_LED  HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_7);
-#define SET_ERROR_LED HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
-#define RESET_ERRORLED HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
+
 
 bool CanRxFlag=false;
 void FilterConfig()
@@ -95,9 +92,11 @@ short CanBus::Send(unsigned long ID,unsigned char DLC,unsigned char *data)
 				  hcan.Instance->sTxMailBox[mailbox_num].TDHR=(uint32_t)data[7]<<24|(uint32_t)data[6]<<16|(uint32_t)data[5]<<8|(uint32_t)data[4];//メールボックス上位レジスタにセット
 				  hcan.Instance->sTxMailBox[mailbox_num].TDLR=(uint32_t)data[3]<<24|(uint32_t)data[2]<<16|(uint32_t)data[1]<<8|(uint32_t)data[0];
 				  hcan.Instance->sTxMailBox[mailbox_num].TIR|=1;//送信ビットセット
-				  return 0;
+
+
 				  Txok=true;
 				  error_flag=false;
+				  return 0;
 			  }
 			  else
 			  {
@@ -117,16 +116,9 @@ short CanBus::Send(unsigned long ID,unsigned char DLC,unsigned char *data)
 		 }
 		  if(Txok)
 		  {
-		 	if(tx_led>5)
-		 	{
-		 		TOGGLE_TX_LED;
-		 		tx_led=0;
-		 	}
-		 	else
-		 	{
-		 		tx_led++;
-		 	}
+
+
 		  }
-	Txok=false;
+
 }
 

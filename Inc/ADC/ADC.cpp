@@ -11,12 +11,13 @@
 
 uint16_t adcValue1[6]={0,};
 uint16_t adcValue2[6]={0,};
-
+uint16_t ADCValue[3][3]={0,};
 
 
 void ADC::Start()
 {
 	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcValue1, 3);
+	//HAL_ADCEx_MultiModeStart_DMA(&hadc1,ADCValue,datasize/2)
 	HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adcValue2, 3);
 }
 

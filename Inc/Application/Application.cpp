@@ -9,12 +9,12 @@
 #include "DefineOrder.h"
 #include "stdio.h"
 #include "math.h"
-
+#include "DefineLED.h"
 extern unsigned char RxFIFO_Data[6];
 extern CAN_RxHeaderTypeDef RXmsg;
 extern bool CanRxFlag;
 extern bool IntFlag;
-
+int tx_led=0;
 void App::DivideData()
 {
 	unsigned short tempdata[6]={0,};
@@ -63,11 +63,38 @@ void App::TaskShift()
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)
 		{
 			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1); //送信要求が来たら12バイト分送信
-			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2);
+			if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2)!=0)
+			{
+
+			}
+			else
+			{
+				if(tx_led>7){
+					TOGGLE_TX_LED;
+					tx_led=0;
+				}
+				else{
+					tx_led++;
+				}
+
+			}
 		}
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_MICROSWITCH)
 		{
-			plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos,1,txbuf3);
+			if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos,1,txbuf3)!=0){
+
+			}
+			else
+			{
+				if(tx_led>7)
+				{
+					TOGGLE_TX_LED;
+					tx_led=0;
+				}
+				else{
+				tx_led++;
+				}
+			}
 		}
 		CanRxFlag=false;
 	}

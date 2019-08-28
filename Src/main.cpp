@@ -39,7 +39,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 //#define DEBUG
-//#define RUN
+#define RUN
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -130,12 +130,13 @@ int main(void)
 	  app.TaskShift();
 #endif
 #ifdef DEBUG
-	  //hlow.DebugADC();
-	  hlow.DebugSW();
+	  hlow.DebugADC();
+	  //hlow.DebugSW();
 #endif
 	  //app.TaskShift();
-hlow.extcan.Send(0x89, 0, 0);
-HAL_Delay(1);	//  printf("id:%d\n\r",RXmsg.ExtId);
+//hlow.extcan.Send(0x89, 0, 0);
+//HAL_Delay(1);
+//  printf("id:%d\n\r",RXmsg.ExtId);
 
   }
   /* USER CODE END 3 */
