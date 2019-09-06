@@ -59,28 +59,50 @@ void App::TaskShift()
 	}
 	if(CanRxFlag)
 	{
-		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)
+		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)//送信要求が来たら12バイト分送信
 		{
-			plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1); //送信要求が来たら12バイト分送信
+		  while(TXok==false)
+		  {
+			 if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1)!=0)
+			 {
+
+			 }
+			 else
+			 {
+				 TXok=true;
+			 }
+		  }
+		  TXok=false;
+
+		  while(TXok==false)
+		  {
 			if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2)!=0)
 			{
 
 			}
 			else
 			{
-				if(tx_led>7){
+				if(tx_led>7)
+				{
 					TOGGLE_TX_LED;
 					tx_led=0;
 				}
-				else{
+				else
+				{
 					tx_led++;
 				}
-
+				TXok=true;
 			}
+		  }
+		  TXok=false;
 		}
+
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_MICROSWITCH)
 		{
-			if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos|1,1,txbuf3)!=0){
+		  while(TXok==false)
+		  {
+			if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos|1,1,txbuf3)!=0)
+			{
 
 			}
 			else
@@ -93,8 +115,12 @@ void App::TaskShift()
 				else{
 				tx_led++;
 				}
+				TXok=true;
 			}
+		  }
+		  TXok=false;
 		}
+
 		CanRxFlag=false;
 	}
 }

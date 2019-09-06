@@ -34,6 +34,7 @@
 #include "Application/Application.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
 #include "stdio.h"
+#include "DefineLED.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -130,10 +131,13 @@ int main(void)
 	  app.TaskShift();
 #endif
 #ifdef DEBUG
-	  //hlow.DebugADC();
-	  hlow.DebugSW();
+	  hlow.DebugADC();
+	  //hlow.DebugSW();
 #endif
-
+//	  TOGGLE_TX_LED;
+//	  HAL_Delay(500);
+//	  TOGGLE_TX_LED;
+//	  HAL_Delay(500);
 
 
   }

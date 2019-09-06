@@ -11,7 +11,7 @@ unsigned char RxFIFO_Data[6];
 CAN_RxHeaderTypeDef RXmsg;
 
 int rx_led=0;
-#define MASKID_L 0x30<<9|0x1<<2
+#define MASKID_L 0xF0<<9|0x1<<2
 #define FILTERID_L 0x30<<9|0x1<<2 //extidと命令IDの上位ビットでマスクをかける
 
 
@@ -94,7 +94,7 @@ short CanBus::Send(unsigned long ID,unsigned char DLC,unsigned char *data)
 				  hcan.Instance->sTxMailBox[mailbox_num].TIR|=1;//送信ビットセット
 
 
-				  Txok=true;
+
 				  error_flag=false;
 				  return 0;
 			  }
@@ -114,11 +114,6 @@ short CanBus::Send(unsigned long ID,unsigned char DLC,unsigned char *data)
 			 this->SetError();
 			    return -1;
 		 }
-		  if(Txok)
-		  {
-
-
-		  }
 
 }
 
