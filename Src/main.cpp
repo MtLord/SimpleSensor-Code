@@ -35,6 +35,7 @@
 #include "InterruptIvent/TimerInterruptCallback.hpp"
 #include "stdio.h"
 #include "DefineLED.h"
+#include "VL53L0X/VL53L0X.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,8 +53,8 @@ extern void FilterConfig();
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
-//#define DEBUG
-#define RUN
+#define DEBUG
+//#define RUN
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -101,7 +102,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
+  //MX_DMA_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_CAN_Init();
@@ -112,12 +113,15 @@ int main(void)
 
   LowlayerHandelTypedef hlow;
   FilterConfig();
-  hlow.ad1.Start();
+ // hlow.ad1.Start();
   Timer1 LoopInt(&htim6);
   LoopInt.SetLoopTime(2);
   LoopInt.Start();
   App app(&hlow);
-
+  VL53L0X sensor;
+  sensor.init();
+    sensor.setTimeout(500);
+    sensor.startContinuous();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -131,14 +135,18 @@ int main(void)
 	  app.TaskShift();
 #endif
 #ifdef DEBUG
-	  hlow.DebugADC();
+	  //hlow.DebugADC();
 	  //hlow.DebugSW();
+	  printf("dist:%d\n\r",sensor.readRangeContinuousMillimeters());
+	  if (sensor.timeoutOccurred())
+	  {
+		  printf(" TIMEOUT");
+	  }
 #endif
 //	  TOGGLE_TX_LED;
 //	  HAL_Delay(500);
 //	  TOGGLE_TX_LED;
-//	  HAL_Delay(500);
-
+	  HAL_Delay(100);
 
   }
   /* USER CODE END 3 */
