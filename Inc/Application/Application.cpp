@@ -17,15 +17,16 @@ extern bool IntFlag;
 int tx_led=0;
 void App::DivideData()
 {
-	unsigned short tempdata[6]={0,};
+	unsigned short tempdata[9]={0,};
 	tempdata[0]=plow->ad1.GetValue();
 	tempdata[1]=plow->ad2.GetValue();
 	tempdata[2]=plow->ad3.GetValue();
 	tempdata[3]=plow->ad4.GetValue();
 	tempdata[4]=plow->ad5.GetValue();
 	tempdata[5]=plow->ad6.GetValue();
-
-
+	tempdata[6]=plow->vl53l0x_0.readRangeContinuousMillimeters();
+	tempdata[7]=plow->vl53l0x_1.readRangeContinuousMillimeters();
+	tempdata[8]=plow->vl53l0x_2.readRangeContinuousMillimeters();
 	//distance[0]=19501.14 * pow(tempdata[0] ,-1.256676);
 		this->txbuf3[0]	=plow->sw6.GetPush();
 		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw5.GetPush();
@@ -48,6 +49,12 @@ void App::DivideData()
 	this->txbuf2[2]=((unsigned char *)&tempdata[5])[0];
 	this->txbuf2[3]=((unsigned char *)&tempdata[5])[1];
 
+	this->txbuf4[0]=((unsigned char *)&tempdata[6])[0];
+	this->txbuf4[1]=((unsigned char *)&tempdata[6])[1];
+	this->txbuf4[2]=((unsigned char *)&tempdata[7])[0];
+	this->txbuf4[3]=((unsigned char *)&tempdata[7])[1];
+	this->txbuf4[4]=((unsigned char *)&tempdata[8])[0];
+	this->txbuf4[5]=((unsigned char *)&tempdata[8])[1];
 
 }
 
@@ -119,6 +126,30 @@ void App::TaskShift()
 			}
 		  }
 		  TXok=false;
+		}
+
+		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_I2C_SENSER)
+		{
+			while(TXok==false)
+			{
+				if(plow->extcan.Send(GET_I2C_SENSER<<ORDER_BIT_Pos|1,3,txbuf4)!=0)
+				{
+
+				}
+				else
+				{
+					if(tx_led>9)
+					{
+						TOGGLE_TX_LED;
+						tx_led=0;
+					}
+					else
+					{
+						tx_led++;
+					}
+						TXok=true;
+				}
+			}
 		}
 
 		CanRxFlag=false;

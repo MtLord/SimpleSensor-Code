@@ -15,6 +15,7 @@ class App
 	unsigned char txbuf1[8]={0,};
 	unsigned char txbuf2[8]={0,};
 	unsigned char txbuf3[1]={0,};
+	unsigned char txbuf4[6]={0,};
 	void DivideData();
 	float distance[6];
 	bool TXok=false;

@@ -53,14 +53,14 @@ extern void FilterConfig();
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
-#define DEBUG
-//#define RUN
+//#define DEBUG
+#define RUN
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern CAN_RxHeaderTypeDef RXmsg;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,7 +102,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_DMA_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_CAN_Init();
@@ -113,15 +113,25 @@ int main(void)
 
   LowlayerHandelTypedef hlow;
   FilterConfig();
- // hlow.ad1.Start();
+  hlow.ad1.Start();
   Timer1 LoopInt(&htim6);
   LoopInt.SetLoopTime(2);
   LoopInt.Start();
   App app(&hlow);
-  VL53L0X sensor;
-  sensor.init();
-    sensor.setTimeout(500);
-    sensor.startContinuous();
+/********VL53L0x init****************************/
+  hlow.vl53l0x_0.init();
+  hlow.vl53l0x_1.init();
+  hlow.vl53l0x_2.init();
+
+  hlow.vl53l0x_0.setTimeout(500);
+  hlow.vl53l0x_1.setTimeout(500);
+  hlow.vl53l0x_2.setTimeout(500);
+
+  hlow.vl53l0x_0.startContinuous(4);
+  hlow.vl53l0x_1.startContinuous(4);
+  hlow.vl53l0x_2.startContinuous(4);
+
+    /******************************************/
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,7 +147,7 @@ int main(void)
 #ifdef DEBUG
 	  //hlow.DebugADC();
 	  //hlow.DebugSW();
-	  printf("dist:%d\n\r",sensor.readRangeContinuousMillimeters());
+	  printf("dist:%d\n\r");
 	  if (sensor.timeoutOccurred())
 	  {
 		  printf(" TIMEOUT");

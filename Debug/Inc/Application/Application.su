@@ -1,2 +1,2 @@
-Application.cpp:18:6:void App::DivideData()	40	static
-Application.cpp:54:6:void App::TaskShift()	16	static
+Application.cpp:18:6:void App::DivideData()	48	static
+Application.cpp:61:6:void App::TaskShift()	16	static

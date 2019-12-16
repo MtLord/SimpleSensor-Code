@@ -11,6 +11,8 @@
 // The Arduino two-wire interface uses a 7-bit number for the address,
 // and sets the last bit correctly based on reads and writes
 #define ADDRESS_DEFAULT 0b0101001
+#define ADDRESS_1 0b0101010
+#define ADDRESS_2 0b0101100
 
 // Record the current time to check an upcoming timeout against
 #define startTimeout() (timeout_start_ms = HAL_GetTick())
@@ -34,8 +36,7 @@
 
 // Constructors ////////////////////////////////////////////////////////////////
 
-VL53L0X::VL53L0X(void)
-  : address(ADDRESS_DEFAULT)
+VL53L0X::VL53L0X(unsigned short _address): address(_address)
   , io_timeout(0) // no timeout
   , did_timeout(false)
 {
