@@ -156,7 +156,7 @@ int main(void)
 //	  TOGGLE_TX_LED;
 //	  HAL_Delay(500);
 //	  TOGGLE_TX_LED;
-	  HAL_Delay(100);
+	  //HAL_Delay(100);
 
   }
   /* USER CODE END 3 */

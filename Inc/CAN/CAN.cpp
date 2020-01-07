@@ -11,8 +11,8 @@ unsigned char RxFIFO_Data[6];
 CAN_RxHeaderTypeDef RXmsg;
 
 int rx_led=0;
-#define MASKID_L 0xF0<<9|0x1<<2
-#define FILTERID_L 0x30<<9|0x1<<2 //extidと命令IDの上位ビットでマスクをかける
+#define MASKID_L 0xF0<<11|0x1<<4
+#define FILTERID_L 0x30<<11|0x1<<4 //extidと命令IDの上位ビットでマスクをかける
 
 
 
