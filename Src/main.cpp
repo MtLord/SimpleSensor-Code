@@ -55,6 +55,7 @@ extern void FilterConfig();
 
 //#define DEBUG
 #define RUN
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -119,6 +120,7 @@ int main(void)
   LoopInt.Start();
   App app(&hlow);
 /********VL53L0x init****************************/
+#ifdef USE_I2C_DEVICE
   hlow.vl53l0x_0.init();
   hlow.vl53l0x_1.init();
   hlow.vl53l0x_2.init();
@@ -130,7 +132,7 @@ int main(void)
   hlow.vl53l0x_0.startContinuous(4);
   hlow.vl53l0x_1.startContinuous(4);
   hlow.vl53l0x_2.startContinuous(4);
-
+#endif
     /******************************************/
   /* USER CODE END 2 */
 

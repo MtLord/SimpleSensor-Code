@@ -15,6 +15,7 @@
 #include "ADC/ADC.hpp"
 #include "VL53L0X/VL53L0X.h"
 
+//#define USE_I2C_DEVICE
 class LowlayerHandelTypedef
 {
 public:
