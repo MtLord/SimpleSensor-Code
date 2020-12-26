@@ -23,7 +23,6 @@
 #include "adc.h"
 #include "can.h"
 #include "dma.h"
-#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -35,7 +34,6 @@
 #include "InterruptIvent/TimerInterruptCallback.hpp"
 #include "stdio.h"
 #include "DefineLED.h"
-#include "VL53L0X/VL53L0X.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -109,7 +107,6 @@ int main(void)
   MX_CAN_Init();
   MX_USART2_UART_Init();
   MX_TIM6_Init();
-  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
   LowlayerHandelTypedef hlow;
@@ -119,20 +116,6 @@ int main(void)
   LoopInt.SetLoopTime(2);
   LoopInt.Start();
   App app(&hlow);
-/********VL53L0x init****************************/
-#ifdef USE_I2C_DEVICE
-  hlow.vl53l0x_0.init();
-  hlow.vl53l0x_1.init();
-  hlow.vl53l0x_2.init();
-
-  hlow.vl53l0x_0.setTimeout(500);
-  hlow.vl53l0x_1.setTimeout(500);
-  hlow.vl53l0x_2.setTimeout(500);
-
-  hlow.vl53l0x_0.startContinuous(4);
-  hlow.vl53l0x_1.startContinuous(4);
-  hlow.vl53l0x_2.startContinuous(4);
-#endif
     /******************************************/
   /* USER CODE END 2 */
 
@@ -149,11 +132,6 @@ int main(void)
 #ifdef DEBUG
 	  //hlow.DebugADC();
 	  //hlow.DebugSW();
-	  printf("dist:%d\n\r");
-	  if (sensor.timeoutOccurred())
-	  {
-		  printf(" TIMEOUT");
-	  }
 #endif
 //	  TOGGLE_TX_LED;
 //	  HAL_Delay(500);
@@ -172,15 +150,13 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -198,12 +174,6 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1;
-  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
@@ -233,7 +203,7 @@ void Error_Handler(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(char *file, uint32_t line)
+void assert_failed(uint8_t *file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,

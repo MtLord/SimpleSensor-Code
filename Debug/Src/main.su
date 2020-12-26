@@ -6,6 +6,6 @@ Application.hpp:23:2:App::App(LowlayerHandelTypedef*)	16	static
 TimerInterruptCallback.hpp:19:2:Timer1::Timer1(TIM_HandleTypeDef*)	16	static
 TimerInterruptCallback.hpp:23:7:void Timer1::SetLoopTime(float)	24	static
 TimerInterruptCallback.hpp:45:7:void Timer1::Start()	16	static
-main.cpp:82:5:int main()	256	static
-main.cpp:171:6:void SystemClock_Config()	96	static
-main.cpp:220:6:void Error_Handler()	4	static
+main.cpp:80:5:int main()	216	static
+main.cpp:149:6:void SystemClock_Config()	72	static
+main.cpp:190:6:void Error_Handler()	4	static

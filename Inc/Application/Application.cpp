@@ -2,7 +2,7 @@
  * Application.cpp
  *
  *  Created on: 2019/05/04
- *      Author: —T‘¿
+ *      Author: ï¿½Tï¿½ï¿½
  */
 
 #include "Application.hpp"
@@ -24,19 +24,14 @@ void App::DivideData()
 	tempdata[3]=plow->ad4.GetValue();
 	tempdata[4]=plow->ad5.GetValue();
 	tempdata[5]=plow->ad6.GetValue();
-#ifdef USE_I2C_DEVICE
-	tempdata[6]=plow->vl53l0x_0.readRangeContinuousMillimeters();
-	tempdata[7]=plow->vl53l0x_1.readRangeContinuousMillimeters();
-	tempdata[8]=plow->vl53l0x_2.readRangeContinuousMillimeters();
-#endif
-	//distance[0]=19501.14 * pow(tempdata[0] ,-1.256676);
-		this->txbuf3[0]	=plow->sw6.GetPush();
-		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw5.GetPush();
-		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw4.GetPush();
-		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw3.GetPush();
-		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw2.GetPush();
-		this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw1.GetPush();
-		//txbuf3[0]=~txbuf3[0]; //‰Ÿ‚µ‚Ä‚¢‚é‚Æ‚«‚ð1‚É•ÏX
+	this->txbuf3[0]	=plow->sw7.GetPush();
+	this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw6.GetPush();
+	this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw5.GetPush();
+	this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw4.GetPush();
+	this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw3.GetPush();
+	this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw2.GetPush();
+	this->txbuf3[0]	=(txbuf3[0]<<1)+plow->sw1.GetPush();
+	//txbuf3[0]=~txbuf3[0]; //ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½1ï¿½É•ÏX
 
 	this->txbuf1[0]=((unsigned char *)&tempdata[0])[0];
 	this->txbuf1[1]=((unsigned char *)&tempdata[0])[1];
@@ -68,7 +63,7 @@ void App::TaskShift()
 	}
 	if(CanRxFlag)
 	{
-		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)//‘—M—v‹‚ª—ˆ‚½‚ç12ƒoƒCƒg•ª‘—M
+		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)//ï¿½ï¿½ï¿½Mï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½12ï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½M
 		{
 		  while(TXok==false)
 		  {

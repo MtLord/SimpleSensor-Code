@@ -14,14 +14,14 @@ extern LowlayerHandelTypedef *plow;
 bool IntFlag=false;
 int warikan=0;
  void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
- 			{
-	 	 	 	if(htim->Instance==TIM6)
-	 	 	 		{
- 					IntFlag=true;
+ {
+	 if(htim->Instance==TIM6)
+	 {
+ 		IntFlag=true;
 
- 					}
+	 }
 
- 			}
+ }
 
 
 
