@@ -1,2 +1,6 @@
 Application.cpp:18:6:void App::DivideData()	48	static
-Application.cpp:58:6:void App::TaskShift()	16	static
+Application.cpp:57:6:void App::TxLEDBrink()	16	static
+Application.cpp:70:5:int App::SendSensor()	16	static
+Application.cpp:98:5:int App::SendMsSwitch()	16	static
+Application.cpp:115:5:int App::SendI2cSensor()	16	static
+Application.cpp:131:6:void App::TaskShift()	16	static

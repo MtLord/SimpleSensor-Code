@@ -54,99 +54,97 @@ void App::DivideData()
 	this->txbuf4[5]=((unsigned char *)&tempdata[8])[1];
 
 }
+void App::TxLEDBrink()
+{
+	if(tx_led>35)
+	{
+		TOGGLE_TX_LED;
+		tx_led=0;
+	}
+	else
+	{
+		tx_led++;
+	}
+}
 
+int App::SendSensor()
+{
+	while(TXok==false)
+	{
+		if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1)!=0)
+		{
+		}
+		else
+		{
+			TXok=true;
+		}
+	}
+	TXok=false;
+
+	while(TXok==false)
+	{
+		if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2)!=0)
+		{
+		}
+		else
+		{
+			TxLEDBrink();
+			TXok=true;
+		}
+	}
+	TXok=false;
+	return 0;
+}
+int App::SendMsSwitch()
+{
+	while(TXok==false)
+	{
+		if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos|1,1,txbuf3)!=0)
+		{
+		}
+		else
+		{
+			TxLEDBrink();
+			TXok=true;
+		}
+	}
+	TXok=false;
+	return 0;
+}
+
+int App::SendI2cSensor()
+{
+	while(TXok==false)
+	{
+		if(plow->extcan.Send(GET_I2C_SENSER<<ORDER_BIT_Pos|1,3,txbuf4)!=0)
+		{
+		}
+		else
+		{
+			TxLEDBrink();
+			TXok=true;
+
+		}
+	}
+	return 0;
+}
 void App::TaskShift()
 {
-	if(IntFlag)
-	{
-		this->DivideData();
-	}
 	if(CanRxFlag)
 	{
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==Get_SENSOR)//���M�v����������12�o�C�g�����M
 		{
-		  while(TXok==false)
-		  {
-			 if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,txbuf1)!=0)
-			 {
-
-			 }
-			 else
-			 {
-				 TXok=true;
-			 }
-		  }
-		  TXok=false;
-
-		  while(TXok==false)
-		  {
-			if(plow->extcan.Send(Get_SENSOR<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,txbuf2)!=0)
-			{
-
-			}
-			else
-			{
-				if(tx_led>7)
-				{
-					TOGGLE_TX_LED;
-					tx_led=0;
-				}
-				else
-				{
-					tx_led++;
-				}
-				TXok=true;
-			}
-		  }
-		  TXok=false;
+			this->SendI2cSensor();
 		}
 
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_MICROSWITCH)
 		{
-		  while(TXok==false)
-		  {
-			if(plow->extcan.Send(GET_MICROSWITCH<<ORDER_BIT_Pos|1,1,txbuf3)!=0)
-			{
-
-			}
-			else
-			{
-				if(tx_led>7)
-				{
-					TOGGLE_TX_LED;
-					tx_led=0;
-				}
-				else{
-				tx_led++;
-				}
-				TXok=true;
-			}
-		  }
-		  TXok=false;
+			this->SendMsSwitch();
 		}
 
 		if(RXmsg.ExtId>>ORDER_BIT_Pos==GET_I2C_SENSER)
 		{
-			while(TXok==false)
-			{
-				if(plow->extcan.Send(GET_I2C_SENSER<<ORDER_BIT_Pos|1,3,txbuf4)!=0)
-				{
-
-				}
-				else
-				{
-					if(tx_led>9)
-					{
-						TOGGLE_TX_LED;
-						tx_led=0;
-					}
-					else
-					{
-						tx_led++;
-					}
-						TXok=true;
-				}
-			}
+			this->SendI2cSensor();
 		}
 
 		CanRxFlag=false;

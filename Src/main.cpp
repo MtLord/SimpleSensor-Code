@@ -127,16 +127,19 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 #ifdef RUN
-    app.TaskShift();
+    if(IntFlag)
+    {
+    	app.DivideData();
+    	app.SendSensor();
+    	app.SendMsSwitch();
+    	IntFlag=false;
+    }
 #endif
 #ifdef DEBUG
-    //hlow.DebugADC();
+    hlow.DebugADC();
     //hlow.DebugSW();
+
 #endif
-    //	  TOGGLE_TX_LED;
-    //	  HAL_Delay(500);
-    //	  TOGGLE_TX_LED;
-    //HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }

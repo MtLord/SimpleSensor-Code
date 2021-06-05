@@ -2,7 +2,7 @@
  * Application.hpp
  *
  *  Created on: 2019/05/04
- *      Author: —T‘¿
+ *      Author: ï¿½Tï¿½ï¿½
  */
 
 #ifndef APPLICATION_APPLICATION_HPP_
@@ -16,13 +16,19 @@ class App
 	unsigned char txbuf2[8]={0,};
 	unsigned char txbuf3[1]={0,};
 	unsigned char txbuf4[6]={0,};
-	void DivideData();
+
 	float distance[6];
 	bool TXok=false;
+	void TxLEDBrink();
 public:
 	App(LowlayerHandelTypedef *_plow):plow(_plow)
 	{
 	}
+	int SendSensor();
+	int SendMsSwitch();
+	int SendI2cSensor();
+	void DivideData();
+
 	void TaskShift();
 };
 
